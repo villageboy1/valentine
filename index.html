@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scam Likely</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffe6e6;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        h1 {
+            color: #ff4d4d;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            padding: 0 20px;
+        }
+
+        img {
+            width: 300px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            border: 5px solid white;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: row; /* Forces side-by-side layout */
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 60px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        #yesBtn {
+            background-color: #ff4d4d;
+            color: white;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1);
+            background-color: #e60000;
+        }
+
+        #noBtn {
+            background-color: #ffffff;
+            color: #ff4d4d;
+            border: 2px solid #ff4d4d;
+            font-weight: bold;
+            /* I REMOVED position: absolute from here so it sits next to Yes */
+            transition: all 0.3s ease;
+        }
+
+        #successMessage {
+            display: none;
+            color: #d63384;
+            font-size: 3rem;
+            font-weight: bold;
+            animation: popIn 0.5s ease-out;
+            padding: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            z-index: 200;
+        }
+
+        @keyframes popIn {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="proposal-container">
+    <h1>Lola Soyomokun, will you be my Valentine?</h1>
+
+    <img src="us.jpg" alt="Us">
+
+    <div class="buttons">
+        <button id="yesBtn" onclick="acceptProposal()">Yes</button>
+        <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()" ontouchstart="moveButton()">No</button>
+    </div>
+</div>
+
+<div id="successMessage">Merci beaucoup, bébé! ❤️</div>
+
+<script>
+    function moveButton() {
+        var btn = document.getElementById('noBtn');
+
+        // This enables the "runaway" mode ONLY when you hover
+        if (btn.style.position !== 'absolute') {
+            btn.style.position = 'absolute';
+        }
+
+        // Calculate random position
+        var newX = Math.random() * (window.innerWidth - 150);
+        var newY = Math.random() * (window.innerHeight - 100);
+
+        // Apply new position
+        btn.style.left = newX + 'px';
+        btn.style.top = newY + 'px';
+    }
+
+    function acceptProposal() {
+        document.getElementById('proposal-container').style.display = 'none';
+        document.getElementById('successMessage').style.display = 'block';
+
+        confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+
+        var duration = 3000;
+        var end = Date.now() + duration;
+
+        (function frame() {
+            confetti({
+                particleCount: 5,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 }
+            });
+            confetti({
+                particleCount: 5,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 }
+            });
+
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        }());
+    }
+</script>
+</body>
+</html>
